@@ -1,0 +1,48 @@
+[project]
+name = "linkbay-customers"
+version = "0.1.0"
+description = "Multi-tenant customer management system for LinkBay with GDPR compliance and AI-powered analytics"
+authors = [
+    {name = "Alessio Quagliara", email = "quagliara.alessio@gmail.com"},
+]
+dependencies = [
+    "sqlalchemy>=2.0.0",
+    "fastapi>=0.110.0",
+    "linkbay-core>=0.1.0",
+    "linkbay-multitenant>=0.2.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dateutil>=2.8.0",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["fastapi", "customer-management", "crm", "multi-tenant", "gdpr", "ai", "linkbay"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",  # Aggiungi il classifier
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.24.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+]
+ai = [
+    "pgvector>=0.2.0",
+    "numpy>=1.24.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]  # Usa una versione stabile
+build-backend = "setuptools.build_meta"
