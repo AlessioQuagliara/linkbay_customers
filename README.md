@@ -1,54 +1,180 @@
-# LinkBay Customers v0.1.0
+# LinkBay Customers
 
-[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT) [![Python](https://img.shields.io/badge/python-3.8+-blue)](https://www.python.org/downloads/) [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green)](https://fastapi.tiangolo.com)
+**Version**: 0.1.0  
+**License**: MIT  
+**Python**: 3.8+  
 
-**Multi-tenant customer management system for FastAPI with GDPR compliance and AI-powered analytics**
+Multi-tenant customer management system for FastAPI with GDPR compliance and AI-powered analytics.
 
-Sistema completo di gestione clienti per applicazioni FastAPI con architettura multi-tenant, conformità GDPR e analytics AI-powered.
+---
 
-## Prima di iniziare
+## Table of Contents
 
-**Questa libreria è ideale per:**
+- [What is LinkBay Customers?](#what-is-linkbay-customers)
+- [Who Should Use This Library](#who-should-use-this-library)
+- [Who Should NOT Use This Library](#who-should-not-use-this-library)
+- [Installation](#installation)
+- [Core Features](#core-features)
+- [Architecture Overview](#architecture-overview)
+- [Quick Start](#quick-start)
+- [API Reference](#api-reference)
+  - [Customer Service](#customer-service)
+  - [GDPR Service](#gdpr-service)
+  - [AI Service](#ai-service)
+  - [REST API Endpoints](#rest-api-endpoints)
+- [Data Models](#data-models)
+- [GDPR Compliance](#gdpr-compliance)
+- [AI-Powered Features](#ai-powered-features)
+- [Advanced Usage](#advanced-usage)
+- [Testing](#testing)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Support](#support)
 
-✅ Applicazioni SaaS multi-tenant che necessitano gestione clienti  
-✅ E-commerce e CRM che richiedono conformità GDPR  
-✅ Sistemi che vogliono analytics AI (segmentazione, churn prediction, CLV)  
-✅ Progetti che necessitano flessibilità totale nei modelli database  
+---
 
-**Non usare se:**
+## What is LinkBay Customers?
 
-❌ Hai bisogno di un CRM completo out-of-the-box (questa è una libreria di building blocks)  
-❌ Non usi FastAPI o SQLAlchemy  
-❌ Non hai bisogno di multi-tenancy  
+`linkbay-customers` is a comprehensive, production-ready customer management system designed for FastAPI applications with multi-tenant architecture. It provides a complete solution for managing customer data, addresses, notes, analytics, and AI-powered insights while ensuring full GDPR compliance.
 
-## Caratteristiche principali
+Unlike monolithic CRM systems, LinkBay Customers is a flexible library that integrates seamlessly with your existing FastAPI application. It uses a dynamic model system that works with any SQLAlchemy session and custom models, making it highly adaptable to your specific requirements.
 
-🏢 **Multi-Tenant** - Isolamento completo dei dati tra tenant  
-🔒 **GDPR Compliant** - Export, cancellazione, tracciamento consensi  
-🤖 **AI-Powered** - Segmentazione, churn risk, CLV prediction  
-📊 **Customer Analytics** - Metriche complete su ordini e comportamento  
-🎯 **Completamente Dinamico** - Usa i tuoi modelli SQLAlchemy  
-🔧 **Altamente Personalizzabile** - Servizi modulari e router flessibili  
+**Key capabilities:**
+- Multi-tenant data isolation with tenant-based queries and constraints
+- Complete GDPR compliance suite (right to access, right to erasure, consent tracking)
+- AI-powered customer analytics (segmentation, CLV prediction, churn risk scoring)
+- Customer similarity search using vector embeddings
+- Flexible data models that extend your existing database schema
+- Production-ready REST API with comprehensive validation
+- Merge functionality for duplicate customer resolution
 
-## Installazione
+---
+
+## Who Should Use This Library
+
+This library is designed for:
+
+- **SaaS application developers**: Building multi-tenant B2B or B2C platforms that need customer management
+- **E-commerce platforms**: Requiring customer profiles, order analytics, and segmentation
+- **CRM builders**: Need building blocks for custom CRM solutions with GDPR compliance
+- **FastAPI developers**: Looking for production-ready customer management without building from scratch
+- **European businesses**: Requiring GDPR compliance for customer data handling
+- **Data-driven applications**: Wanting AI-powered customer insights (CLV, churn prediction, segmentation)
+- **Teams needing flexibility**: Want to customize database models while maintaining core functionality
+- **Growth-focused companies**: Need customer analytics and behavioral segmentation
+
+---
+
+## Who Should NOT Use This Library
+
+This library may not be suitable if:
+
+- **You need a complete CRM**: This is a library providing building blocks, not a full-featured CRM with UI, workflows, and campaign management
+- **You don't use FastAPI**: The router and dependency system are designed specifically for FastAPI
+- **You don't use SQLAlchemy**: All database operations are built on SQLAlchemy ORM
+- **You don't need multi-tenancy**: Single-tenant applications don't benefit from the tenant isolation features
+- **You want plug-and-play simplicity**: This requires integration work - defining models, configuring services, and implementing authentication
+- **You need real-time AI**: The AI features use heuristics by default; production ML requires LinkBay-AI integration
+- **You use Django**: This library is FastAPI-specific; Django has its own ORM and patterns
+- **You prefer GraphQL**: The API is RESTful; GraphQL requires custom integration  
+
+---
+
+## Installation
+
+Install via pip (when published):
 
 ```bash
 pip install linkbay-customers
 ```
 
-Con supporto AI (embeddings, pgvector):
+With AI support (embeddings, pgvector for similarity search):
+
 ```bash
 pip install linkbay-customers[ai]
 ```
 
-Per sviluppo:
+For development:
+
 ```bash
 pip install linkbay-customers[dev]
 ```
 
-## Come funziona (3 passi)
+Direct installation from repository:
 
-### 1. Definisci i tuoi modelli
+```bash
+pip install git+https://github.com/AlessioQuagliara/LinkBay-Customers.git
+```
+
+---
+
+## Core Features
+
+**Multi-Tenant Architecture**
+- Complete data isolation between tenants
+- Tenant-scoped queries and constraints
+- Unique constraints per tenant (email uniqueness)
+
+**GDPR Compliance**
+- Right to access: Complete data export in JSON format
+- Right to erasure: Data anonymization and deletion
+- Consent tracking: Marketing, analytics, cookies consent with timestamps
+- Audit trails: Track when and how data was accessed or modified
+
+**Customer Management**
+- Full CRUD operations for customers, addresses, and notes
+- Advanced search and filtering
+- Tag-based organization
+- Custom preferences storage (JSON)
+- Soft deletion support
+
+**Analytics & Metrics**
+- Order analytics: Total orders, total spent, AOV (Average Order Value)
+- Customer lifecycle tracking: First and last order dates
+- Real-time metrics updates
+- Historical trend analysis
+
+**AI-Powered Features**
+- Automatic customer segmentation (new, active, high_value, at_risk, dormant, churned)
+- Churn risk scoring (0-1 probability)
+- Customer Lifetime Value (CLV) prediction
+- Customer similarity search using vector embeddings
+- Product recommendations based on similar customer behavior
+
+**Flexible Architecture**
+- Dynamic model system: Works with any SQLAlchemy models
+- Dependency injection: Fully compatible with FastAPI dependencies
+- Modular services: Use only what you need
+- Extensible schemas: Add custom fields easily
+
+---
+
+## Architecture Overview
+
+LinkBay Customers uses a three-layer architecture:
+
+**1. Models Layer** (Database)
+- Mixin-based models (CustomerMixin, AddressMixin, CustomerNoteMixin)
+- Extend your existing models without modifying library code
+- Full SQLAlchemy ORM support with relationships
+
+**2. Service Layer** (Business Logic)
+- `CustomerService`: CRUD operations, search, analytics updates
+- `GDPRService`: Data export, deletion, consent management
+- `AIService`: Segmentation, predictions, similarity search
+- All services work with dependency injection
+
+**3. Router Layer** (API)
+- Factory function creates FastAPI router with your configuration
+- Complete REST API with OpenAPI documentation
+- Automatic validation with Pydantic schemas
+- Multi-tenant context from dependencies
+
+---
+
+## Quick Start
+
+### Step 1: Define Your Models
 
 ```python
 from sqlalchemy import create_engine
@@ -71,7 +197,7 @@ engine = create_engine("postgresql://user:pass@localhost/db")
 Base.metadata.create_all(engine)
 ```
 
-### 2. Configura i servizi e il router
+### Step 2: Configure Services and Router
 
 ```python
 from fastapi import FastAPI, Depends
@@ -119,17 +245,21 @@ router = create_customer_router(
 app.include_router(router)
 ```
 
-### 3. Avvia e usa l'API
+### Step 3: Start and Use the API
 
 ```bash
 uvicorn main:app --reload
 ```
 
-Vai su `http://localhost:8000/docs` per la documentazione interattiva.
+Visit `http://localhost:8000/docs` for interactive API documentation.
 
-## Esempio completo di utilizzo
+---
 
-### Creare un cliente
+## API Reference
+
+### Customer Service
+
+The `CustomerService` class handles all customer-related business logic.
 
 ```python
 from linkbay_customers.schemas import CustomerCreate
@@ -370,7 +500,7 @@ MIT. Puoi usarla e modificarla liberamente, assicurandoti di valutarne i rischi 
 
 ## Supporto
 
-- Issues: https://github.com/AlessioQuagliara/----/issues
+- Issues: https://github.com/AlessioQuagliara/linkbay_cusomers/issues
 - Email: quagliara.alessio@gmail.com
 
 Contribuisci, apri una issue o raccontaci come stai usando la libreria 🧡
